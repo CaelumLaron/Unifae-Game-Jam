@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Collider2D))]
 public class Player : MonoBehaviour{
 	
 	[Header("Movement Settings")]
@@ -49,5 +50,9 @@ public class Player : MonoBehaviour{
     	Debug.Log("Player Died!");
     	stopPlayer = true;
     	Hazard.onDeath -= EndGame;
+    }
+
+    private void OnCollisionEnter2D(){
+    	
     }
 }
