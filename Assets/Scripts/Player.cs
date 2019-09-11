@@ -9,12 +9,12 @@ using UnityEngine;
 [RequireComponent(typeof(CircleCollider2D))]
 
 public class Player : MonoBehaviour{
-	
 	[Header("Movement Settings")]
 	[SerializeField] float walkSpeed = .3f;
 	[SerializeField] float groundRunSpeed = 8f;
 	[SerializeField] float airRunSpeed = 3f;
-	
+	[SerializeField] bool stopPlayer = false;
+
 	[Header("Jump Settings")]
 	[SerializeField] float jumpForce = 10f;
 	[SerializeField] float jumpTime = 1f;
@@ -23,16 +23,19 @@ public class Player : MonoBehaviour{
 	Rigidbody2D rg;
 	BoxCollider2D bx2d;
 	CircleCollider2D c2d;
+	Animator anim;
 
 	//Cached Variable
 	float inputX, jumpCounter;
-	bool stopPlayer = false;
-	bool standing = false, jumpInput, runInput, jumping = false;
+	bool standing, runInput, jumping;
 
 	void Start(){
+		jumping = false;
+		standing = false;
 		bx2d = GetComponent<BoxCollider2D>();
 		c2d = GetComponent<CircleCollider2D>();
 		rg = GetComponent<Rigidbody2D>();
+		anim = GetComponent<Animator>();
 		Hazard.onDeath += EndGame;
 	}
 
@@ -41,6 +44,8 @@ public class Player : MonoBehaviour{
     		return;
 		runInput = Input.GetKey(KeyCode.LeftShift);
     	inputX = Input.GetAxisRaw("Horizontal");
+    	anim.SetBool("moving", Mathf.Abs(inputX) > Mathf.Epsilon);
+    	anim.SetFloat("input", inputX); 
     	if(standing){
     		rg.velocity = new Vector2(inputX * (runInput? groundRunSpeed : walkSpeed), rg.velocity.y);
     	}
@@ -58,7 +63,11 @@ public class Player : MonoBehaviour{
     	if(stopPlayer)
     		return;
     	standing = c2d.IsTouchingLayers(LayerMask.GetMask("Ground"));
+    	if(jumping == false && standing)
+    		anim.SetBool("standing", true);
     	if(standing && Input.GetButtonDown("Jump")){
+    		anim.SetBool("standing", false);
+    		anim.SetTrigger("jumping");
     		rg.velocity = Vector2.up * jumpForce;
     		jumpCounter = jumpTime;
     		jumping = true;

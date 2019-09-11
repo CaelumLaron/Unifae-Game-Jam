@@ -1,4 +1,4 @@
-Base path: '/home/lucas/Unity/Hub/Editor/2019.2.0f1/Editor/Data', plugins path '/home/lucas/Unity/Hub/Editor/2019.2.0f1/Editor/Data/PlaybackEngines'
+Base path: '/home/lucas/Unity/Hub/Editor/2019.3.0b3/Editor/Data', plugins path '/home/lucas/Unity/Hub/Editor/2019.3.0b3/Editor/Data/PlaybackEngines'
 Cmd: initializeCompiler
 Cmd: compileComputeKernel
-  api=15 insize=1957 outsize=3634 ok=1
+  api=15 insize=1957 outsize=1864 ok=1

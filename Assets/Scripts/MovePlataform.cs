@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
+[RequireComponent(typeof(Rigidbody2D))]
 public class MovePlataform : MonoBehaviour{
 
     [Header("Movement Settings")]
@@ -16,17 +17,24 @@ public class MovePlataform : MonoBehaviour{
 	[SerializeField] bool oneTime = false;
 	[SerializeField] float timeToDestroy = .5f;
 
+	//Cached Object
+	Rigidbody2D rg2d;
+
 	//Cached Variables
 	int currentDestination = 0;
 	int currentDir = 1;
 
-    void Update(){
-        if(move){
+	private void Start(){
+		rg2d = GetComponent<Rigidbody2D>();
+	}
+
+	private void FixedUpdate(){
+		if(move){
         	if(Vector3.Distance(transform.position, moveTo[currentDestination].position) < Mathf.Epsilon)
         		NextPosition();
-        	transform.position = Vector3.MoveTowards(transform.position, moveTo[currentDestination].position, plataformSpeed * Time.deltaTime);
+        	rg2d.MovePosition(Vector3.MoveTowards(transform.position, moveTo[currentDestination].position, plataformSpeed * Time.deltaTime));
         }
-    }
+	}
 
     private void NextPosition(){
     	if((currentDestination == moveTo.Length-1 && currentDir == 1) || (currentDestination == 0 && currentDir == -1))

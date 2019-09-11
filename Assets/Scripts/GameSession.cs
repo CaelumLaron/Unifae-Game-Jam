@@ -16,7 +16,7 @@ public class GameSession : MonoBehaviour{
 
     void Update(){
         if(gameOver && Input.GetKey(KeyCode.Space))
-        	SceneManager.LoadScene(0);
+        	SceneManager.LoadScene(1);
     }
 
     void ShowWinLabel(){
@@ -25,6 +25,9 @@ public class GameSession : MonoBehaviour{
 
     void ShowLoseLabel(){
     	Debug.Log("You Lose!");
+    	gameOver = true;
     	Hazard.onDeath -= ShowLoseLabel;
     }
+
+
 }

@@ -12,6 +12,7 @@ public class Hazard : MonoBehaviour{
     
     private void OnTriggerEnter2D(Collider2D other){
     	Debug.Log("You Lose! - Hazard");
-    	onDeath();
+    	if(onDeath != null)
+    		onDeath();
     }
 }
